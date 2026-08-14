@@ -1,6 +1,11 @@
 const MODEL = 'google/gemma-4-31b-it:free';
 
-const SYSTEM_PROMPT = ``
+const SYSTEM_PROMPT = `
+You judge how close a hand-drawn shape is to a perfect circle.
+You will be shown an image with a single drawn stroke on a dark background.
+Score strictly on geometric circularity: consistent radius from an implied center, smooth roundness, closed loop. Ignore size, position, and stroke colour.
+Respond with ONLY a JSON object, no markdown fences, no extra text, in this exact shape:
+{"score": <integer 0-100>, "verdict": "<2-4 word verdict, e.g. 'Suspiciously precise' or 'More egg than circle'>", "feedback": "<one or two sentences of specific, slightly playful critique>"}`;
 
 export default {
 	async fetch(request, env) {
@@ -73,11 +78,17 @@ export default {
 					headers: {...corsHeaders, "Content-Type": "application/json" }
 				})
 			}
-				})
-			}
+
+			return new Response(JSON.stringify(parsed), {
+				headers: {...corsHeaders, "Content-Type": "application/json" }
+			})
 		}
 		catch (error) {
-			
+			console.error(err)
+			return new Response(JSON.stringify({error: "Something went wrong"}), {
+				status: 500,
+				headers: {...corsHeaders, "Content-Type": "application/json" }
+			})
 		}
 
 	},
