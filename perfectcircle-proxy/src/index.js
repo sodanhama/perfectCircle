@@ -1,5 +1,3 @@
-const MODEL = 'google/gemma-4-31b-it:free';
-
 const SYSTEM_PROMPT = `
 You judge how close a hand-drawn shape is to a perfect circle.
 You will be shown an image with a single drawn stroke on a dark background.
@@ -28,18 +26,18 @@ export default {
 			const { image } = await request.json();
 			if(!image) {
 				return new Response(JSON.stringify({ error: "Missing image"}), 
-					{ headers: { "Content-Type": "application/json", ...corsHeaders } }
+					{ status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
 				);
 			}
 
-			const orResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+			const orResponse = await fetch("https://ai.hackclub.com/proxy/v1/chat/completions", {
 				method: "POST",
 				headers: {
-					"Authorization": `Bearer ${env.OPENROUTER_API_KEY}`,
+					"Authorization": `Bearer ${env.HACKCLUB_API_KEY}`,
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					model: MODEL,
+					model: "qwen/qwen3-vl-235b-a22b-instruct",
 					messages: [
 						{ role: "system", content: SYSTEM_PROMPT },
 						{
@@ -57,7 +55,7 @@ export default {
 
 			if (!orResponse.ok) {
 				const errText = await orResponse.text();
-				console.error("OpenRouter API error:", errText);
+				console.error("HackClub API error:", errText);
 				return new Response(JSON.stringify({ error: "Upstream model error"}), {
 					status: 502,
 					headers: {...corsHeaders, "Content-Type": "application/json" }
@@ -84,7 +82,7 @@ export default {
 			})
 		}
 		catch (error) {
-			console.error(err)
+			console.error(error)
 			return new Response(JSON.stringify({error: "Something went wrong"}), {
 				status: 500,
 				headers: {...corsHeaders, "Content-Type": "application/json" }
