@@ -6,3 +6,24 @@ body {
     font-family: 'Lexend', sans-serif;
     text-align: center;
 }
+
+.btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#buttons {
+    gap: 1rem;
+}
+
+#output {
+    background-color: #333;
+    width: auto;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: none;
+    border: 0.25rem solid #444;
+}

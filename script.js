@@ -3,11 +3,14 @@ const WORKER_URL = "https://perfectcircle-proxy.sodanhama.workers.dev";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const judgeBtn = document.getElementById("judgeBtn");
+const clearBtn = document.getElementById("clearBtn");
 const output = document.getElementById("output");
 const score = document.getElementById("score");
 const verdict = document.getElementById("verdict");
 const feedback = document.getElementById("feedback");
 
+ctx.fillStyle = "#000000"
+ctx.fillRect(0, 0, canvas.width, canvas.height)
 ctx.lineWidth = 4
 ctx.lineCap = "round"
 ctx.strokeStyle = "#fefefe"
@@ -41,13 +44,20 @@ judgeBtn.addEventListener("click", async () => {
 
     const data = await response.json();
 
-    const score = data.score;
-    const verdict = data.verdict;
-    const feedback = data.feedback;
+    output.style.display = "block";
 
-    score.textContent = `Score: ${score}`;
-    verdict.textContent = `Verdict: ${verdict}`;
-    feedback.textContent = `Feedback: ${feedback}`;
-
-    output.textContent = JSON.stringify(data, null, 2);
+    score.textContent = `Score: ${data.score}/100`;
+    verdict.textContent = `Verdict: ${data.verdict}`;
+    feedback.textContent = `Feedback: ${data.feedback}`;
 })
+
+clearBtn.addEventListener("click", () => {
+    output.style.display = "none";
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#000000"
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    score.textContent = "";
+    verdict.textContent = "";
+    feedback.textContent = "";
+});

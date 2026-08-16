@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/20e7b179a7.js" crossorigin="anonymous"></script>
     <title>perfectCircle</title>
 </head>
 <body>
     <div>
-        <canvas id="canvas" width="400" height="400" style="border:1px solid #333; touch-action:none;"></canvas>        <br>
-        <button id="judgeBtn">Judge</button>
+        <canvas id="canvas" width="500" height="500" style="border:1px solid #333; touch-action:none;"></canvas>
+        <br>
+        <br>
+        <div id="buttons">
+            <button class="btn" id="judgeBtn"><i class="fa-solid fa-circle-up" style="color: "></i></button>
+            <button class="btn" id="clearBtn"><i class="fa-solid fa-trash" style="color: rgb(173, 82, 82)"></i></button>
+        </div>
+        <br>
         <div id="output">
-            <div id="score"></div>
-            <div id="verdict"></div>
-            <div id="feedback"></div>
+            <div class="output-item" id="score"></div>
+            <div class="output-item" id="verdict"></div>
+            <div class="output-item" id="feedback"></div>
         </div>
     </div>
     <script src="script.js"></script>
